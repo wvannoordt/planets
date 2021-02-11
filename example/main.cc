@@ -1,7 +1,7 @@
-#include "tracex.h"
+#include "trx.h"
 
 int main(void)
 {
-	std::cout << "A" << std::endl;
+	trx::WriteLine("Init");
 	return 0;
 }

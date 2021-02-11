@@ -1,4 +1,4 @@
-LIB_NAME := tracex
+LIB_NAME := trx
 
 ifndef OPTLEVEL
 OPTLEVEL := 0

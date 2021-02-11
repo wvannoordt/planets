@@ -1,6 +1,6 @@
-#include "tracex.h"
+#include "trx.h"
 
-namespace tracex
+namespace trx
 {
     void PrintVersion(void)
     {
