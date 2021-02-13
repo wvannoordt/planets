@@ -3,6 +3,12 @@
 int main(void)
 {
 	trx::WriteLine("Init");
-	trx::Camera(400,400);
+	trx::Scene scene;
+	trx::Camera camera(400, 400);
+	
+	scene.AddObject(new trx::Sphere());
+	
+	trx::Render rdr(&camera, &scene);
+	rdr.SaveImage("output/test.png");
 	return 0;
 }

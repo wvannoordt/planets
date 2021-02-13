@@ -1,1 +1,1 @@
-cmd: 'make example'
+cmd: 'make example && eog ./example/output/test.png'
