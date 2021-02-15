@@ -15,13 +15,19 @@ namespace trx
             void SaveImage(std::string filename);
             ~Render(void);
         private:
+            
+            void ComputeCameraNormals(ImageBuffer<double>& norms);
+            void CameraIdPass(ImageBuffer<int>& idBuf);
+            
             Camera* camera;
             Scene* scene;
             PngImage* image;
             PngDrawer* drawer;
             
-            ImageBuffer<int> pixelBuffer;
-            ImageBuffer<int> idBuffer;
+            ImageBuffer<int>    pixelBuffer;
+            ImageBuffer<int>    idBuffer;
+            ImageBuffer<double> camNormals;
+            ImageBuffer<double> camDistance;
     };
 }
 

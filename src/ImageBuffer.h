@@ -1,6 +1,7 @@
 #ifndef TRX_IMAGE_BUFFER_H
 #define TRX_IMAGE_BUFFER_H
 #include <iostream>
+#include "ScreenBoundingBox.h"
 namespace trx
 {
     template <class bufType> struct ImageBuffer
@@ -19,6 +20,13 @@ namespace trx
             ni = ni_in;
             nj = nj_in;
             data = (bufType*)malloc(ni*nj*sizeof(bufType));
+        }
+        void SetSize(int ni_in, int nj_in, int elemCount)
+        {
+            if (data!= NULL) free(data);
+            ni = ni_in;
+            nj = nj_in;
+            data = (bufType*)malloc(ni*nj*elemCount*sizeof(bufType));
         }
         
         void Fill(bufType val)

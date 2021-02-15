@@ -7,7 +7,7 @@ namespace trx
         radius = 0.0;
     }
     
-    void Sphere::TraceRange(double* x, double* n, int* idOut, double* xIncidentOut, double* nReflectOut, ScreenBoundingBox& boundBox)
+    void Sphere::TraceRay(double* x, double* n, int* idOut, double* distanceOut)
     {
         
     }

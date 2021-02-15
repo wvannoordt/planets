@@ -15,6 +15,7 @@ namespace trx
         private:
             std::vector<SceneObject*> objects;
             std::vector<SceneLight*>  lights;
+        friend class Render;
     };
 }
 

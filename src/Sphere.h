@@ -9,7 +9,7 @@ namespace trx
         public:
             Sphere(void);
             ~Sphere(void);
-            void TraceRange(double* x, double* n, int* idOut, double* xIncidentOut, double* nReflectOut, ScreenBoundingBox& boundBox) override;
+            void TraceRay(double* x, double* n, int* idOut, double* distanceOut) override;
         private:
             double radius;
     };

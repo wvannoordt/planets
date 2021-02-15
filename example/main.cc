@@ -9,6 +9,7 @@ int main(void)
 	scene.AddObject(new trx::Sphere());
 	
 	trx::Render rdr(&camera, &scene);
+	rdr.RenderImage();
 	rdr.SaveImage("output/test.png");
 	return 0;
 }
