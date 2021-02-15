@@ -17,7 +17,7 @@ namespace trx
         private:
             
             void ComputeCameraNormals(ImageBuffer<double>& norms);
-            void CameraIdPass(ImageBuffer<int>& idBuf);
+            void CameraIdPass(ImageBuffer<double>& normals, ImageBuffer<int>& idBuf, ImageBuffer<double>& dists);
             
             Camera* camera;
             Scene* scene;

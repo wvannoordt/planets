@@ -26,7 +26,7 @@ namespace trx
     {
         camDistance.Fill(MAX_DISTANCE);
         ComputeCameraNormals(camNormals);
-        CameraIdPass(idBuffer);
+        CameraIdPass(camNormals, idBuffer, camDistance);
     }
     
     void Render::ComputeCameraNormals(ImageBuffer<double>& norms)
@@ -58,11 +58,11 @@ namespace trx
         }
     }
     
-    void Render::CameraIdPass(ImageBuffer<int>& idBuf)
+    void Render::CameraIdPass(ImageBuffer<double>& normals, ImageBuffer<int>& idBuf, ImageBuffer<double>& dists)
     {
         for (const auto obj:scene->objects)
         {
-            ScreenBoundingBox objbbox = obj->ComputeBoundingBox(camera);
+            obj->TraceRange(normals, idBuf, dists, camera);
         }
     }
     
