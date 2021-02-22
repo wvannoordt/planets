@@ -14,10 +14,11 @@ namespace trx
             ~Camera(void);
             int Width(void);
             int Height(void);
-            Vec3& Position(void) { return position; };
-            Vec3& XAxis(void) { return xAxis; };
-            Vec3& YAxis(void) { return yAxis; };
-            Vec3& LowerLeft(void) { return lowerLeft; };
+            Vec3 GetPosition(void) { return position; };
+            Vec3 SetPosition(const Vec3& p) { position = p; ComputeNormalAndAxes(); };
+            Vec3 XAxis(void) { return xAxis; };
+            Vec3 YAxis(void) { return yAxis; };
+            Vec3 LowerLeft(void) { return lowerLeft; };
             
         private:
             void ComputeNormalAndAxes(void);

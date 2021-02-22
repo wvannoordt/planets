@@ -10,7 +10,7 @@ namespace trx
     SceneObject* Scene::AddObject(SceneObject* obj)
     {
         objects.push_back(obj);
-        obj->SetId(objects.size());
+        obj->SetId(objects.size()-1);
         return obj;
     }
     

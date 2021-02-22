@@ -3,6 +3,7 @@
 #include "ScreenBoundingBox.h"
 #include "ImageBuffer.h"
 #include "Camera.h"
+#include "SimpleColors.h"
 namespace trx
 {
     class SceneObject
@@ -10,6 +11,8 @@ namespace trx
         public:
             SceneObject(void){};
             virtual ~SceneObject(void){};
+            void SetBaseColor(int c) {baseColor = c;}
+            void SetPosition(const Vec3& c) {center = c;}
             void SetId(int sceneId_in) { sceneId = sceneId_in; }
             virtual void TraceRay(double* x, double* n, int* idOut, double* distanceOut)=0;
             virtual ScreenBoundingBox ComputeBoundingBox(Camera* camera)
@@ -26,7 +29,7 @@ namespace trx
             void TraceRange(ImageBuffer<double>& n, ImageBuffer<int>& idOut, ImageBuffer<double>& distanceOut, Camera* camera)
             {
                 ScreenBoundingBox bbox = ComputeBoundingBox(camera);
-                double* pos = &(camera->Position().v[0]);
+                double* pos = &(camera->GetPosition().v[0]);
                 for (int j = bbox.jmin; j < bbox.jmax; j++)
                 {
                     for (int i = bbox.imin; i < bbox.imax; i++)
@@ -38,7 +41,9 @@ namespace trx
             
         protected:
             int sceneId = -1;
+            int baseColor = SimpleColor::green;
             Vec3 center;
+            friend class Render;
     };
 }
 

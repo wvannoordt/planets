@@ -27,14 +27,19 @@ namespace trx
         camDistance.Fill(MAX_DISTANCE);
         ComputeCameraNormals(camNormals);
         CameraIdPass(camNormals, idBuffer, camDistance);
+        ColorByID(idBuffer, pixelBuffer);
     }
     
     void Render::ComputeCameraNormals(ImageBuffer<double>& norms)
     {
-        double* lowLeft = &(camera->LowerLeft().v[0]);
-        double* pos     = &(camera->Position().v[0]);
-        double* xax     = &(camera->XAxis().v[0]);
-        double* yax     = &(camera->YAxis().v[0]);
+        Vec3 ll = camera->LowerLeft();
+        Vec3 xa = camera->XAxis();
+        Vec3 ya = camera->YAxis();
+        Vec3 pn = camera->GetPosition();
+        double* lowLeft = &(ll.v[0]);
+        double* pos     = &(pn.v[0]);
+        double* xax     = &(xa.v[0]);
+        double* yax     = &(ya.v[0]);
         double screenPosition[3] = {0.0};
         double pari, parj, normVal;
         for (int j = 0; j < norms.nj; j++)
@@ -63,6 +68,21 @@ namespace trx
         for (const auto obj:scene->objects)
         {
             obj->TraceRange(normals, idBuf, dists, camera);
+        }
+    }
+    
+    void Render::ColorByID(ImageBuffer<int>& id, ImageBuffer<int>& pxBuf)
+    {
+        for (int j = 0; j < pxBuf.nj; j++)
+        {
+            for (int i = 0; i < pxBuf.ni; i++)
+            {
+                int idLoc = id.data[i+j*pxBuf.ni];
+                if (idLoc>=0)
+                {
+                    pxBuf.data[i+j*pxBuf.ni] = scene->objects[idLoc]->baseColor;
+                }
+            }
         }
     }
     
