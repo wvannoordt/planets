@@ -24,7 +24,7 @@ namespace trx
         Vec3 operator - (const Vec3& w) {return Vec3(v[0]-w.v[0], v[1]-w.v[1], v[2]-w.v[2]);}
         Vec3 operator % (const Vec3& w) {return Vec3(v[1]*w.v[2] - v[2]*w.v[1], v[2]*w.v[0] - v[0]*w.v[2], v[0]*w.v[1] - v[1]*w.v[0]);}
         Vec3 operator * (const double a) {return Vec3(a*v[0], a*v[1], a*v[2]);}
-        Vec3 operator / (const double a) {return Vec3(a/v[0], a/v[1], a/v[2]);}
+        Vec3 operator / (const double a) {return Vec3(v[0]/a, v[1]/a, v[2]/a);}
         double operator * (const Vec3& w) {return v[0]*w.v[0] + v[1]*w.v[1] + v[2]*w.v[2];}
         double Norm(void) {return sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);}
     };
