@@ -14,7 +14,7 @@ namespace trx
             void SetBaseColor(int c) {baseColor = c;}
             void SetPosition(const Vec3& c) {center = c;}
             void SetId(int sceneId_in) { sceneId = sceneId_in; }
-            virtual void TraceRay(double* x, double* n, int* idOut, double* distanceOut)=0;
+            virtual void TraceRay(double* x, double* n, int* idOut, double* distanceOut, double* reflectNormalOut)=0;
             virtual ScreenBoundingBox ComputeBoundingBox(Camera* camera)
             {
                 //default to whole image :(
@@ -26,7 +26,7 @@ namespace trx
                 return bbox;
             }
             
-            void TraceRange(ImageBuffer<double>& n, ImageBuffer<int>& idOut, ImageBuffer<double>& distanceOut, Camera* camera)
+            void TraceRange(ImageBuffer<double>& n, ImageBuffer<int>& idOut, ImageBuffer<double>& distanceOut, ImageBuffer<double>& reflectedNormal, Camera* camera)
             {
                 ScreenBoundingBox bbox = ComputeBoundingBox(camera);
                 double* pos = &(camera->GetPosition().v[0]);
@@ -34,7 +34,7 @@ namespace trx
                 {
                     for (int i = bbox.imin; i < bbox.imax; i++)
                     {
-                        TraceRay(pos, (n.data + j*3*n.ni + 3*i), (idOut.data + j*n.ni + i), (distanceOut.data + j*n.ni + i));
+                        TraceRay(pos, (n.data + j*3*n.ni + 3*i), (idOut.data + j*n.ni + i), (distanceOut.data + j*n.ni + i), (reflectedNormal.data + j*3*reflectedNormal.ni + 3*i));
                     }
                 }
             }

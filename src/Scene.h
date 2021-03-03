@@ -10,11 +10,14 @@ namespace trx
         public:
             Scene(void);
             ~Scene(void);
+            void Clear(void);
             SceneObject* AddObject(SceneObject* obj);
             SceneLight*  AddLightSource(SceneLight* light);
+            void SetGamma(double gamma_in);
         private:
             std::vector<SceneObject*> objects;
             std::vector<SceneLight*>  lights;
+            double gamma;
         friend class Render;
     };
 }

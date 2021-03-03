@@ -11,13 +11,16 @@ namespace trx
         
         idBuffer.SetSize(camera->Width(), camera->Height());
         pixelBuffer.SetSize(camera->Width(), camera->Height());
+        lightingBuffer.SetSize(camera->Width(), camera->Height());
         camNormals.SetSize(camera->Width(), camera->Height(), 3);
+        reflectedNormals.SetSize(camera->Width(), camera->Height(), 3);
         camDistance.SetSize(camera->Width(), camera->Height());
 
         image = new PngImage(camera->Height(), camera->Width(), pixelBuffer.data);
         
         idBuffer.Fill(SpecialId::background);
-        pixelBuffer.Fill(SimpleColor::gray);
+        pixelBuffer.Fill(SimpleColor::black);
+        lightingBuffer.Fill(0.0);
         
         drawer = new PngDrawer(image);
     }
@@ -26,7 +29,7 @@ namespace trx
     {
         camDistance.Fill(MAX_DISTANCE);
         ComputeCameraNormals(camNormals);
-        CameraIdPass(camNormals, idBuffer, camDistance);
+        CameraIdPass(camNormals, idBuffer, camDistance, reflectedNormals);
         ColorByID(idBuffer, pixelBuffer);
     }
     
@@ -63,12 +66,27 @@ namespace trx
         }
     }
     
-    void Render::CameraIdPass(ImageBuffer<double>& normals, ImageBuffer<int>& idBuf, ImageBuffer<double>& dists)
+    void Render::CameraIdPass(ImageBuffer<double>& normals, ImageBuffer<int>& idBuf, ImageBuffer<double>& dists, ImageBuffer<double>& reflectedNormal)
     {
         for (const auto obj:scene->objects)
         {
-            obj->TraceRange(normals, idBuf, dists, camera);
+            obj->TraceRange(normals, idBuf, dists, reflectedNormals, camera);
         }
+    }
+    
+    void Render::IllumintaionPass(ImageBuffer<double>& cameraNormals, ImageBuffer<double>& cameraDistance, ImageBuffer<double>& reflectedNormalVecs, ImageBuffer<int>& lighting)
+    {
+        // for (int j = 0; j < pixelBuffer.nj; j++)
+        // {
+        //     for (int i = 0; i < pixelBuffer.ni; i++)
+        //     {
+        //         int idLoc = id.data[i+j*pxBuf.ni];
+        //         if (idLoc>=0)
+        //         {
+        // 
+        //         }
+        //     }    
+        // }
     }
     
     void Render::ColorByID(ImageBuffer<int>& id, ImageBuffer<int>& pxBuf)
@@ -80,7 +98,7 @@ namespace trx
                 int idLoc = id.data[i+j*pxBuf.ni];
                 if (idLoc>=0)
                 {
-                    pxBuf.data[i+j*pxBuf.ni] = scene->objects[idLoc]->baseColor;
+                    pxBuf.data[i+j*pxBuf.ni] = color_blend(SimpleColor::black, scene->objects[idLoc]->baseColor, scene->gamma);
                 }
             }
         }
